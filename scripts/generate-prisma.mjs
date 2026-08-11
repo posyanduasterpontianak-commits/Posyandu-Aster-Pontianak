@@ -27,23 +27,28 @@ if (!fs.existsSync(prismaCli)) {
   );
 }
 
-if (!envFile) {
+const hasEnvConfig = Boolean(
+  envFile ||
+  process.env.DATABASE_URL ||
+  process.env.DIRECT_URL ||
+  process.env.VERCEL
+);
+
+if (!hasEnvConfig) {
   if (optional) {
-    console.log("[Prisma] .env/.env.local belum ada; generation akan dijalankan saat npm run dev.");
+    console.log("[Prisma] Konfigurasi environment belum ada; generation dilewati.");
     process.exit(0);
   }
 
   stop(
     [
-      "File .env atau .env.local belum ditemukan.",
-      "Salin .env dari proyek lama, atau jalankan:",
-      "  Copy-Item .env.example .env",
-      "Lalu isi DATABASE_URL, DIRECT_URL, konfigurasi Supabase, dan JWT_SECRET dengan nilai yang benar.",
+      "Environment variable (DATABASE_URL / DIRECT_URL) belum diatur.",
+      "Atur Environment Variables pada Vercel Dashboard, atau salin .env.example ke .env.local untuk lokal.",
     ].join("\n")
   );
 }
 
-console.log(`[Prisma] Menggunakan ${envFile} dan membuat Prisma Client...`);
+console.log(`[Prisma] Membuat Prisma Client (${envFile ? `menggunakan ${envFile}` : "menggunakan process.env"})...`);
 const result = spawnSync(process.execPath, [prismaCli, "generate"], {
   cwd: root,
   stdio: "inherit",
