@@ -1,6 +1,9 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || "https://posyanduaster.com";
+// Domain produksi resmi — diutamakan daripada environment variable
+// agar sitemap selalu mengarah ke posyanduaster.com (bukan domain Vercel)
+const PRODUCTION_DOMAIN = "https://posyanduaster.com";
+const BASE_URL = PRODUCTION_DOMAIN;
 
 /**
  * Sitemap dinamis untuk aplikasi Posyandu Aster.

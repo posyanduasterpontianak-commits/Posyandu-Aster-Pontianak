@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") || "https://posyanduaster.com";
+// Domain produksi resmi — hardcoded agar robots.txt selalu benar
+const BASE_URL = "https://posyanduaster.com";
 
 /**
  * File robots.txt otomatis untuk Posyandu Aster.
