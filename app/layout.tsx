@@ -11,50 +11,74 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://posyanduaster.com"),
   title: {
-    default: "Posyandu Aster — Layanan Kesehatan & Sistem Informasi Digital",
-    template: "%s | Posyandu Aster",
+    default: "Posyandu Aster Pontianak — Layanan Kesehatan Masyarakat",
+    template: "%s | Posyandu Aster Pontianak",
   },
   description:
-    "Sistem Informasi Digital & Layanan Kesehatan Terpadu Posyandu Aster. Pemantauan tumbuh kembang balita, pemeriksaan lansia, ibu hamil, absensi QR, dan publikasi kegiatan posyandu.",
+    "Informasi resmi dan layanan kesehatan Posyandu Aster Pontianak. Pemantauan tumbuh kembang balita, pemeriksaan ibu hamil, lansia, usia produktif, remaja, serta informasi kegiatan & jadwal posyandu.",
   keywords: [
+    "Posyandu Aster Pontianak",
     "Posyandu Aster",
-    "Sistem Informasi Posyandu",
-    "Kesehatan Masyarakat",
-    "MPASI Balita",
-    "Pemeriksaan Lansia",
-    "Absensi Posyandu",
+    "Layanan Kesehatan Posyandu",
+    "Posyandu Siantan Hilir",
+    "Kesehatan Masyarakat Pontianak",
+    "Pemantauan Balita",
+    "Ibu Hamil",
+    "Lansia",
     "Pencegahan Stunting",
+    "Imunisasi Balita",
+    "PMT Posyandu",
+    "Jadwal Posyandu",
+    "Kalimantan Barat",
   ],
-  authors: [{ name: "Pengurus Posyandu Aster" }],
+  authors: [{ name: "Posyandu Aster Pontianak", url: "https://posyanduaster.com" }],
+  creator: "Posyandu Aster Pontianak",
+  publisher: "Posyandu Aster Pontianak",
+  alternates: {
+    canonical: "https://posyanduaster.com",
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://posyandu-aster.org",
-    siteName: "Posyandu Aster",
-    title: "Posyandu Aster — Layanan Kesehatan & Sistem Informasi Digital",
+    url: "https://posyanduaster.com",
+    siteName: "Posyandu Aster Pontianak",
+    title: "Posyandu Aster Pontianak — Layanan Kesehatan Masyarakat",
     description:
-      "Sistem Informasi Digital & Layanan Kesehatan Terpadu Posyandu Aster. Pemantauan tumbuh kembang balita, lansia, bumil, dan absensi QR.",
+      "Informasi resmi dan layanan kesehatan Posyandu Aster Pontianak. Pemantauan balita, ibu hamil, lansia, remaja, usia produktif, serta jadwal dan berita kegiatan posyandu.",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&h=630&fit=crop",
+        url: "/images/logo-aster.jpg",
         width: 1200,
         height: 630,
-        alt: "Posyandu Aster Digital",
+        alt: "Posyandu Aster Pontianak",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Posyandu Aster — Layanan Kesehatan Digital",
+    title: "Posyandu Aster Pontianak — Layanan Kesehatan Masyarakat",
     description:
-      "Sistem Informasi Digital Posyandu Aster untuk pelayanan balita, bumil, lansia, dan informasi masyarakat.",
+      "Informasi resmi dan layanan kesehatan Posyandu Aster Pontianak.",
+    images: ["/images/logo-aster.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",
   },
 };
+
 
 export default function RootLayout({
   children,
