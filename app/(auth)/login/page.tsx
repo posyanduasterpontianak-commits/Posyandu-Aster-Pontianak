@@ -48,9 +48,9 @@ export default async function LoginPage() {
             {/* Brand & CSR Co-Branding */}
             <div className="flex items-center gap-3 mb-8">
               <img
-                src="/images/logo-aster.jpg"
+                src="/images/logo-aster.png"
                 alt="Posyandu Aster"
-                className="w-11 h-11 rounded-full object-cover border border-amber-200 shadow-sm flex-shrink-0"
+                className="h-11 w-auto object-contain flex-shrink-0"
               />
               <div>
                 <h3 className="font-bold text-slate-800 text-base leading-none">
@@ -162,9 +162,9 @@ export default async function LoginPage() {
                 <div className="flex items-center justify-between mb-5 lg:hidden pb-3 border-b border-gray-100">
                   <div className="flex items-center gap-2.5">
                     <img
-                      src="/images/logo-aster.jpg"
+                      src="/images/logo-aster.png"
                       alt="Posyandu Aster"
-                      className="w-9 h-9 rounded-full object-cover border border-amber-200 shadow-xs flex-shrink-0"
+                      className="h-9 w-auto object-contain flex-shrink-0"
                     />
                     <div>
                       <p className="font-bold text-slate-800 text-sm leading-none">

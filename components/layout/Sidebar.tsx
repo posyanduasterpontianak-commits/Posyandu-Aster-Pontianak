@@ -101,9 +101,9 @@ export default function Sidebar({ user, isOpen, onClose }: SidebarProps) {
         <div className="px-5 pt-6 pb-5 border-b border-gray-100 flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-2.5" onClick={onClose}>
             <img
-              src="/images/logo-aster.jpg"
+              src="/images/logo-aster.png"
               alt="Posyandu Aster"
-              className="w-9 h-9 rounded-full object-cover border border-amber-200 shadow-xs flex-shrink-0"
+              className="h-9 w-auto object-contain flex-shrink-0"
             />
             <div>
               <h1 className="font-bold text-[15px] text-slate-800 leading-none">

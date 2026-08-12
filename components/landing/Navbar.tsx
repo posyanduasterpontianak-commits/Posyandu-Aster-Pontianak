@@ -39,9 +39,9 @@ export default function Navbar() {
           {/* Brand Logo with Aster & Pertamina Patra Niaga */}
           <Link href="/" className="flex items-center gap-3 group">
             <img
-              src="/images/logo-aster.jpg"
+              src="/images/logo-aster.png"
               alt="Logo Posyandu 6 SPM Aster"
-              className="w-10 h-10 rounded-full object-cover border border-amber-200 shadow-xs flex-shrink-0"
+              className="h-10 w-auto object-contain flex-shrink-0"
             />
             <div className="flex flex-col">
               <span className="font-bold text-gray-800 text-lg leading-tight">

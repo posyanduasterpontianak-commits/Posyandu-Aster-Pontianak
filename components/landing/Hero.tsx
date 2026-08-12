@@ -48,9 +48,9 @@ export default async function Hero() {
             {/* Program Binaan CSR Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-gray-200/80 shadow-2xs mb-4">
               <img
-                src="/images/logo-aster.jpg"
+                src="/images/logo-aster.png"
                 alt="Aster"
-                className="w-5 h-5 rounded-full object-cover"
+                className="h-6 w-auto object-contain flex-shrink-0"
               />
               <span className="text-xs font-semibold text-gray-700">Posyandu 6 SPM Aster</span>
               <span className="text-gray-300">•</span>

@@ -10,9 +10,9 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="/images/logo-aster.jpg"
+                src="/images/logo-aster.png"
                 alt="Posyandu Aster"
-                className="w-10 h-10 rounded-full object-cover border border-amber-200 shadow-xs"
+                className="h-10 w-auto object-contain flex-shrink-0"
               />
               <div className="flex flex-col">
                 <span className="font-bold text-gray-900 text-base leading-tight">Posyandu Aster</span>
