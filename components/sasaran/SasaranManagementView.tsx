@@ -54,7 +54,6 @@ export default function SasaranManagementView({ user }: Props) {
 
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState<string>("all");
-  const [wilayah, setWilayah] = useState<string>("all");
   const [status, setStatus] = useState<string>("all");
 
   const [stats, setStats] = useState<SummaryStats | null>(null);
@@ -121,18 +120,6 @@ export default function SasaranManagementView({ user }: Props) {
     setPage(1);
   };
 
-  const handleWilayahChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setWilayah(e.target.value);
-    setPage(1);
-  };
-
-  // Client-side filter for Wilayah if specified in address
-  const filteredVisitors = visitors.filter((v) => {
-    if (wilayah === "all") return true;
-    if (!v.address) return false;
-    return v.address.toLowerCase().includes(wilayah.toLowerCase());
-  });
-
   // ── Handlers Modal ────────────────────────────────────────────────────────
   const handleOpenAddModal = () => {
     setEditingVisitor(null);
@@ -162,13 +149,13 @@ export default function SasaranManagementView({ user }: Props) {
 
   // ── Ekspor Data CSV ───────────────────────────────────────────────────────
   const handleExportCSV = () => {
-    if (filteredVisitors.length === 0) {
+    if (visitors.length === 0) {
       alert("Tidak ada data untuk diekspor.");
       return;
     }
 
     const headers = ["ID Sasaran", "Nama Lengkap", "NIK", "Jenis Kelamin", "Kategori", "Tempat Lahir", "Tanggal Lahir", "No HP", "Alamat", "Status"];
-    const rows = filteredVisitors.map((v) => [
+    const rows = visitors.map((v: VisitorDTO) => [
       `AST-${String(v.id).padStart(5, "0")}`,
       `"${v.fullName.replace(/"/g, '""')}"`,
       `"${v.nik || "-"}"`,
@@ -181,7 +168,7 @@ export default function SasaranManagementView({ user }: Props) {
       v.isActive ? "Aktif" : "Nonaktif",
     ]);
 
-    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r: string[]) => r.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -341,9 +328,9 @@ export default function SasaranManagementView({ user }: Props) {
 
       {/* ── 3. FILTER & SEARCH BAR ───────────────────────────────────────── */}
       <div className="bg-white border border-gray-200/80 rounded-2xl p-4 shadow-xs space-y-3">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
           {/* Search Input */}
-          <div className="md:col-span-1 relative">
+          <div className="md:col-span-6 relative">
             <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
@@ -355,7 +342,7 @@ export default function SasaranManagementView({ user }: Props) {
           </div>
 
           {/* Select Kategori */}
-          <div>
+          <div className="md:col-span-3">
             <select
               value={categoryId}
               onChange={handleCategoryChange}
@@ -370,24 +357,8 @@ export default function SasaranManagementView({ user }: Props) {
             </select>
           </div>
 
-          {/* Select Wilayah */}
-          <div>
-            <select
-              value={wilayah}
-              onChange={handleWilayahChange}
-              className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-            >
-              <option value="all">Semua Wilayah</option>
-              <option value="RT 01">RT 01 / RW 04</option>
-              <option value="RT 02">RT 02 / RW 04</option>
-              <option value="RT 03">RT 03 / RW 04</option>
-              <option value="RT 04">RT 04 / RW 04</option>
-              <option value="RT 05">RT 05 / RW 04</option>
-            </select>
-          </div>
-
           {/* Select Status */}
-          <div>
+          <div className="md:col-span-3">
             <select
               value={status}
               onChange={handleStatusChange}
@@ -441,14 +412,14 @@ export default function SasaranManagementView({ user }: Props) {
                     </div>
                   </td>
                 </tr>
-              ) : filteredVisitors.length === 0 ? (
+              ) : visitors.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-gray-400">
                     Tidak ada data sasaran yang sesuai dengan filter.
                   </td>
                 </tr>
               ) : (
-                filteredVisitors.map((item) => {
+                visitors.map((item) => {
                   const catBadge = getCategoryBadge(item.category?.name, item.categoryId);
                   const formattedId = `AST-${String(item.id).padStart(5, "0")}`;
 
@@ -563,7 +534,7 @@ export default function SasaranManagementView({ user }: Props) {
         {/* Pagination Footer */}
         <div className="px-5 py-3.5 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
           <div>
-            Menampilkan <span className="font-semibold text-slate-700">{filteredVisitors.length}</span> dari{" "}
+            Menampilkan <span className="font-semibold text-slate-700">{visitors.length}</span> dari{" "}
             <span className="font-semibold text-slate-700">{totalCount}</span> sasaran
           </div>
           <div className="flex items-center gap-2">
