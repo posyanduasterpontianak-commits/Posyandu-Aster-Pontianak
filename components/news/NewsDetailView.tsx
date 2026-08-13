@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Calendar, User, Tag, Clock, Trophy, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Calendar, User, Tag, Clock, Trophy, ExternalLink, Video } from "lucide-react";
 import ShareButton from "./ShareButton";
 
-export type NewsSectionType = "paragraph" | "subheading" | "image" | "highlight";
+export type NewsSectionType = "paragraph" | "subheading" | "image" | "highlight" | "link" | "youtube";
 
 export interface NewsSection {
   id: string;
@@ -40,6 +40,36 @@ function getNewsThumbnail(url?: string | null): string {
   return url;
 }
 
+export function getYouTubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  if (url.includes("youtube.com/embed/")) return url;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? `https://www.youtube.com/embed/${match[2]}` : null;
+}
+
+export function renderTextWithLinks(text: string) {
+  if (!text) return null;
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline font-medium hover:text-blue-800 break-all"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export default function NewsDetailView({
   article,
   onBack,
@@ -72,7 +102,7 @@ export default function NewsDetailView({
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      {/* ── 1. TOMBOL KEMBALI HIERARKIS ─────────────────────────────────── */}
+      {/* ── 1. TOMBOL KEMBALI HIERARKIS (SINGLE ICON) ───────────────────── */}
       <div>
         {onBack ? (
           <button
@@ -81,7 +111,7 @@ export default function NewsDetailView({
             className="inline-flex items-center gap-2 text-xs font-bold text-blue-600 hover:text-blue-700 bg-white border border-gray-200/80 px-4 py-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>← {backLabel}</span>
+            <span>{backLabel}</span>
           </button>
         ) : (
           <Link
@@ -89,7 +119,7 @@ export default function NewsDetailView({
             className="inline-flex items-center gap-2 text-xs font-bold text-blue-600 hover:text-blue-700 bg-white border border-gray-200/80 px-4 py-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>← {backLabel}</span>
+            <span>{backLabel}</span>
           </Link>
         )}
       </div>
@@ -161,7 +191,7 @@ export default function NewsDetailView({
               if (section.type === "paragraph") {
                 return (
                   <p key={section.id || idx} className="whitespace-pre-line text-slate-700 leading-relaxed">
-                    {section.content}
+                    {renderTextWithLinks(section.content)}
                   </p>
                 );
               }
@@ -215,11 +245,70 @@ export default function NewsDetailView({
                 );
               }
 
+              if (section.type === "link") {
+                const targetUrl = section.content.trim();
+                const linkLabel = section.caption || "Baca Sumber Berita / Referensi Asli";
+                return (
+                  <div key={section.id || idx} className="my-6 p-4 bg-blue-50/70 border border-blue-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
+                        <ExternalLink size={20} />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-600 block">
+                          Link Berita Asli / Sumber Web
+                        </span>
+                        <h4 className="text-sm font-bold text-slate-800">
+                          {linkLabel}
+                        </h4>
+                      </div>
+                    </div>
+                    <a
+                      href={targetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-2xs transition shrink-0"
+                    >
+                      Buka Link <ExternalLink size={14} />
+                    </a>
+                  </div>
+                );
+              }
+
+              if (section.type === "youtube") {
+                const embedUrl = getYouTubeEmbedUrl(section.content.trim());
+                return (
+                  <figure key={section.id || idx} className="my-6 space-y-2">
+                    <div className="w-full aspect-video rounded-2xl overflow-hidden border border-gray-200 shadow-md bg-black">
+                      {embedUrl ? (
+                        <iframe
+                          src={embedUrl}
+                          title={section.caption || "Video Berita YouTube"}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full border-0"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-white p-4 text-center">
+                          <Video size={48} className="text-red-500 mb-2" />
+                          <p className="text-xs text-gray-300">Format link YouTube tidak valid: {section.content}</p>
+                        </div>
+                      )}
+                    </div>
+                    {section.caption && (
+                      <figcaption className="text-xs text-center text-gray-500 font-medium italic">
+                        🎬 {section.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              }
+
               return null;
             })
           ) : (
             <div className="whitespace-pre-line text-slate-700 leading-relaxed">
-              {article.content}
+              {renderTextWithLinks(article.content)}
             </div>
           )}
         </div>

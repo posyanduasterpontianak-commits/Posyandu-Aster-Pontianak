@@ -115,7 +115,7 @@ export default async function PublicProductDetailPage({ params }: Props) {
               className="inline-flex items-center gap-2 text-xs font-bold text-blue-600 hover:text-blue-700 bg-white border border-gray-200/80 px-4 py-2.5 rounded-xl shadow-2xs hover:shadow-xs transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>← Kembali ke Katalog Produk</span>
+              <span>Kembali ke Katalog Produk</span>
             </Link>
           </div>
 

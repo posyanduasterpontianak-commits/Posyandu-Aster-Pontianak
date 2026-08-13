@@ -8,6 +8,8 @@ import {
   Trash2,
   ArrowUp,
   ArrowDown,
+  ExternalLink,
+  Video,
 } from "lucide-react";
 import type { NewsSection, NewsSectionType } from "@/components/news/NewsDetailView";
 
@@ -23,7 +25,7 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
       id: `sec-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
       type,
       content: "",
-      caption: type === "image" || type === "highlight" ? "" : undefined,
+      caption: type === "image" || type === "highlight" || type === "link" || type === "youtube" ? "" : undefined,
     };
     onChange([...sections, newSec]);
   };
@@ -73,7 +75,7 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
           <AlignLeft size={14} className="text-blue-600" /> Section Block Editor ({sections.length} Blok)
         </label>
         <span className="text-[11px] text-gray-500 font-medium">
-          Susun urutan blok sesuai kebutuhan penyampaian artikel
+          Susun urutan blok berita (Teks, Gambar, Link Web, YouTube, & Highlight)
         </span>
       </div>
 
@@ -102,6 +104,12 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
                   )}
                   {sec.type === "highlight" && (
                     <><Trophy size={13} className="text-amber-500" /> Highlight / Pencapaian</>
+                  )}
+                  {sec.type === "link" && (
+                    <><ExternalLink size={13} className="text-blue-600" /> Link Berita / Web Lain</>
+                  )}
+                  {sec.type === "youtube" && (
+                    <><Video size={13} className="text-red-500" /> Video YouTube</>
                   )}
                 </span>
               </div>
@@ -153,7 +161,7 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
                 rows={3}
                 value={sec.content}
                 onChange={(e) => handleUpdateSection(sec.id, "content", e.target.value)}
-                placeholder="Tuliskan isi paragraf berita di sini..."
+                placeholder="Tuliskan isi paragraf berita di sini. Anda juga bisa menempelkan link https://..."
                 className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-y leading-relaxed"
               />
             )}
@@ -164,7 +172,7 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
                   type="text"
                   value={sec.content}
                   onChange={(e) => handleUpdateSection(sec.id, "content", e.target.value)}
-                  placeholder="URL Gambar (misal: /uploads/news/... atau https://...)"
+                  placeholder="URL Gambar (misal: https://...)"
                   className="w-full text-xs px-3.5 py-2 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
                 <input
@@ -195,6 +203,64 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
                 />
               </div>
             )}
+
+            {sec.type === "link" && (
+              <div className="space-y-2 bg-blue-50/60 border border-blue-200/80 p-3.5 rounded-xl">
+                <div>
+                  <label className="block text-[11px] font-bold text-blue-800 mb-1">
+                    URL Link Berita Asli / Web Lain:
+                  </label>
+                  <input
+                    type="url"
+                    value={sec.content}
+                    onChange={(e) => handleUpdateSection(sec.id, "content", e.target.value)}
+                    placeholder="https://pontianakpost.jawapos.com/berita-posyandu-aster"
+                    className="w-full text-xs px-3.5 py-2 rounded-xl border border-blue-300 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-blue-800 mb-1">
+                    Label Keterangan Link (Opsional):
+                  </label>
+                  <input
+                    type="text"
+                    value={sec.caption || ""}
+                    onChange={(e) => handleUpdateSection(sec.id, "caption", e.target.value)}
+                    placeholder="Contoh: Baca artikel selengkapnya di Portal Berita Pontianak Post"
+                    className="w-full text-xs px-3.5 py-2 rounded-xl border border-blue-200 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+
+            {sec.type === "youtube" && (
+              <div className="space-y-2 bg-red-50/60 border border-red-200/80 p-3.5 rounded-xl">
+                <div>
+                  <label className="block text-[11px] font-bold text-red-800 mb-1">
+                    URL Video YouTube:
+                  </label>
+                  <input
+                    type="url"
+                    value={sec.content}
+                    onChange={(e) => handleUpdateSection(sec.id, "content", e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=... atau https://youtu.be/..."
+                    className="w-full text-xs px-3.5 py-2 rounded-xl border border-red-300 bg-white focus:ring-2 focus:ring-red-500 focus:outline-none font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-red-800 mb-1">
+                    Keterangan / Judul Video (Opsional):
+                  </label>
+                  <input
+                    type="text"
+                    value={sec.caption || ""}
+                    onChange={(e) => handleUpdateSection(sec.id, "caption", e.target.value)}
+                    placeholder="Contoh: Dokumentasi Video Liputan Kegiatan Posyandu Aster"
+                    className="w-full text-xs px-3.5 py-2 rounded-xl border border-red-200 bg-white focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -202,36 +268,50 @@ export default function NewsBlockEditor({ sections, onChange }: Props) {
       {/* Control Toolbar + Tambah Section */}
       <div className="pt-2">
         <span className="text-[11px] font-semibold text-gray-500 block mb-2">
-          + Tambah Blok Section Baru:
+          Tambah Blok Section Baru:
         </span>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => handleAddSection("paragraph")}
-            className="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-xl border border-blue-200 flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-xl border border-blue-200 flex items-center gap-1.5 transition cursor-pointer"
           >
-            <AlignLeft size={13} /> + Paragraf
+            <AlignLeft size={13} /> Paragraf
           </button>
           <button
             type="button"
             onClick={() => handleAddSection("subheading")}
-            className="px-3.5 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold rounded-xl border border-purple-200 flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold rounded-xl border border-purple-200 flex items-center gap-1.5 transition cursor-pointer"
           >
-            <Heading2 size={13} /> + Sub-Heading
+            <Heading2 size={13} /> Sub-Heading
           </button>
           <button
             type="button"
             onClick={() => handleAddSection("image")}
-            className="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-xl border border-emerald-200 flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-xl border border-emerald-200 flex items-center gap-1.5 transition cursor-pointer"
           >
-            <ImageIcon size={13} /> + Gambar & Caption
+            <ImageIcon size={13} /> Gambar & Caption
           </button>
           <button
             type="button"
             onClick={() => handleAddSection("highlight")}
-            className="px-3.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold rounded-xl border border-amber-200 flex items-center gap-1.5 transition cursor-pointer"
+            className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-semibold rounded-xl border border-amber-200 flex items-center gap-1.5 transition cursor-pointer"
           >
-            <Trophy size={13} /> + Highlight Pencapaian
+            <Trophy size={13} /> Highlight Pencapaian
+          </button>
+          <button
+            type="button"
+            onClick={() => handleAddSection("link")}
+            className="px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-semibold rounded-xl border border-sky-200 flex items-center gap-1.5 transition cursor-pointer"
+          >
+            <ExternalLink size={13} /> Link Berita Asli
+          </button>
+          <button
+            type="button"
+            onClick={() => handleAddSection("youtube")}
+            className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold rounded-xl border border-rose-200 flex items-center gap-1.5 transition cursor-pointer"
+          >
+            <Video size={13} /> Video YouTube
           </button>
         </div>
       </div>

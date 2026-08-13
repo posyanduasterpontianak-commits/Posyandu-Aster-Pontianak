@@ -222,7 +222,7 @@ export default function JadwalPage({ events: initialEvents, role }: Props) {
               className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-blue-700 bg-white rounded-xl hover:bg-blue-50 shadow-lg transition whitespace-nowrap"
             >
               <PlusCircle className="w-4 h-4" />
-              + Tambah Jadwal
+              Tambah Jadwal Sesi
             </button>
           )}
         </div>

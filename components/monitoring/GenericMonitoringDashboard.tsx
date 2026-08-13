@@ -714,7 +714,7 @@ export default function GenericMonitoringDashboard({
                     className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 shadow-xs transition"
                   >
                     <PlusCircle className="w-4 h-4" />
-                    + Input Hasil Pemeriksaan
+                    Input Hasil Pemeriksaan
                   </button>
                 </div>
               ) : null}
@@ -776,7 +776,7 @@ export default function GenericMonitoringDashboard({
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition"
                 >
                   <PlusCircle className="w-3.5 h-3.5" />
-                  + Input Hasil Pemeriksaan Baru
+                  Input Hasil Pemeriksaan Baru
                 </button>
               </div>
               <div className="overflow-x-auto -mx-0">
