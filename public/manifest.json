@@ -1,15 +1,32 @@
 {
-  "name": "Posyandu Aster Digital",
+  "name": "Posyandu Aster Pontianak",
   "short_name": "Posyandu Aster",
-  "description": "Sistem Informasi Digital & Layanan Kesehatan Terpadu Posyandu Aster",
+  "description": "Informasi Resmi & Layanan Kesehatan Terpadu Posyandu Aster Pontianak",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
   "icons": [
     {
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "48x48 32x32 16x16",
       "type": "image/x-icon"
     }
   ]
